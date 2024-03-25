@@ -154,6 +154,6 @@ app.get('/journal', async (req, res) => {
 });
 
 // Serve PDF files from the "uploads" directory
-app.use('/pdf', express.static(path.join(__dirname, 'uploads')))
+app.use('/pdf/uploads', express.static(path.join(__dirname, 'uploads')))
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

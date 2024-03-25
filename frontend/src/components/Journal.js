@@ -17,12 +17,15 @@ const Journal = () => {
     fetchEntries();
   }, []);
 
-  const handleViewPDF = async (pdfUrl) => {
+  const handleViewPDF = async (pdf) => {
     try {
+      const pdfUrl = `/pdf/${pdf}`; // Construct the URL to access PDF files
       const response = await axios.get(pdfUrl, {
         responseType: "blob", // Set responseType to 'blob' to receive binary data
       });
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const url = window.URL.createObjectURL(
+        new Blob([response.data], { type: "application/pdf" })
+      );
       window.open(url);
     } catch (error) {
       console.error("Error fetching PDF:", error);

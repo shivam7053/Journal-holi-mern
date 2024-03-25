@@ -22,6 +22,21 @@ const Review = () => {
     fetchEntries();
   }, []);
 
+  const handleViewPDF = async (pdf) => {
+    try {
+      const pdfUrl = `/pdf/${pdf}`; // Construct the URL to access PDF files
+      const response = await axios.get(pdfUrl, {
+        responseType: "blob", // Set responseType to 'blob' to receive binary data
+      });
+      const url = window.URL.createObjectURL(
+        new Blob([response.data], { type: "application/pdf" })
+      );
+      window.open(url);
+    } catch (error) {
+      console.error("Error fetching PDF:", error);
+    }
+  };
+
   const handleReview = async (id, reviewStatus) => {
     try {
       const token = localStorage.getItem("token");
@@ -51,6 +66,7 @@ const Review = () => {
           <li key={entry._id}>
             <h3>{entry.title}</h3>
             <p>{entry.content}</p>
+            <button onClick={() => handleViewPDF(entry.pdf)}>View PDF</button>
             <button onClick={() => handleReview(entry._id, "approved")}>
               Approve
             </button>
